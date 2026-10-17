@@ -1,4 +1,4 @@
-<!doctype html>
+´´<!doctype html>
 <html lang="en">
 <head>
   <meta charset="utf-8">
@@ -35,14 +35,14 @@
       <p>Every May, forty countries sing and then vote for each other. Greece gives Cyprus twelve points almost every year. Moldova and Romania do the same. Is that because the song is good, or because they are neighbours?</p>
       <p>Our question: <strong>how much of the points a country awards is explained by the song itself, and how much by the relationship between the two countries? And does this differ between the jury and the public vote?</strong></p>
       <p>Since 2016 the jury and the televote are published separately. A jury is five music professionals, the televote is the public. If friendship matters anywhere, it should matter more in the televote. Earlier studies looked at combined points. We split them.</p>
-      <p>Instead of looking at songs, we look at <strong>pairs</strong>: country A gives points to country B in one year. Ten contests have only about 260 finalists, but they give 19,800 such pair votes. That is enough data to say something real.</p>
+      <p>Instead of looking at songs, we look at <strong>pairs</strong>: country A gives points to country B in one year. Ten contests have only 257 finalists, but they give 19,774 such pair votes. That is enough data to say something real.</p>
     </section>
 
     <section id="dataset">
       <h2>Dataset description</h2>
       <p>One row is one directed pair in one contest: who gives, who receives, how many points, jury or televote. Finals only, 2016 to 2026 (2020 was cancelled).</p>
       <div class="cards">
-        <div class="card"><span class="big">19,800</span>pair rows</div>
+        <div class="card"><span class="big">19,774</span>pair rows</div>
         <div class="card"><span class="big">10</span>contests</div>
         <div class="card"><span class="big">2</span>vote types</div>
       </div>
@@ -51,19 +51,19 @@
         <li><strong>Votes and entries:</strong> the Spijkervet Eurovision dataset up to 2023, eurovisionworld.com from 2024.</li>
         <li><strong>Country relationship:</strong> CEPII GeoDist, with distance, shared border, shared language and colonial ties.</li>
         <li><strong>Past points:</strong> all voting history since 1957, used only to say how much two countries liked each other before.</li>
-        <li><strong>Attention:</strong> Google Trends, per voting country, for the artist and the song, cut the day before the final.</li>
-        <li><strong>Lyrics:</strong> sentiment, repetition and theme of each song.</li>
+        <li><strong>Attention:</strong> Google Trends, per voting country, web and YouTube search, for the 30 days before each final.</li>
+        <li><strong>Lyrics:</strong> mood, theme and repetition of each song, labelled by a language model from the LRCLIB lyrics database.</li>
         <li><strong>Artists:</strong> age and sex from Wikidata.</li>
       </ul>
       <p>We deliberately do not use YouTube views. They are only available as of today, so a winner would get views it earned because it won.</p>
     </section>
 
     <section id="visualization">
-      <h2>Visualization</h2>
+      <h2>Visualizations</h2>
       <div class="gallery">
         <figure>
-          <img src="img/explorer.png" alt="Country explorer">
-          <figcaption>The country explorer: who gives more points to whom than the song alone explains.</figcaption>
+          <img src="img/winners_are_younger.png" alt="Winners are younger than finalists, and the age distribution of winners is more concentrated.">
+          <figcaption>From solo artists (with exact birthdate known), winners are most likely to come from the category of age 25-29 have the biggest finalist/winners ratio. Also winners are a little younger than finalists, with the median age 26 againts 27 for all finalists.</figcaption>
         </figure>
       </div>
     </section>
@@ -75,53 +75,49 @@
       <div class="cards">
         <div class="card"><span class="big">2.8 %</span>jury: relationship</div>
         <div class="card"><span class="big">12.5 %</span>televote: relationship</div>
-        <div class="card"><span class="big">4&times;</span>more in the televote</div>
+        <div class="card"><span class="big">4.5&times;</span>more in the televote</div>
       </div>
-      <p>The song (the entry itself) explains 25 % of the jury points and 40 % of the televote points. The relationship between countries explains <strong>four times more for the public than for the jury</strong>. Juries judge the song. The public also votes for its friends.</p>
+      <p>The song (the entry itself) explains 25 % of the jury points and 40 % of the televote points. The relationship between countries explains <strong>four and a half times more for the public than for the jury</strong>. Juries judge the song. The public also votes for its friends.</p>
 
       <h3>Strongest friendships</h3>
       <p>Points given beyond what the song earned, at least three meetings: <strong>Greece to Cyprus +10.5</strong> and <strong>North Macedonia to Albania +10.4</strong> in the televote, Montenegro to Serbia +9.8 in the jury.</p>
 
       <h3>Can we forecast the ranking?</h3>
-      <p>We predict each year without ever seeing it, and measure how far off the predicted place is. Random guessing is off by 8.4 places.</p>
+      <p>We predict each year without ever seeing it, and measure how far off the predicted place is. Random guessing is off by 8.5 places for the jury and 8.4 for the televote.</p>
       <table>
         <tr><th>Model</th><th>Jury error</th><th>Televote error</th></tr>
-        <tr><td>Chance</td><td>8.5</td><td>8.4</td></tr>
-        <tr><td>Country relationships only</td><td>6.8</td><td>6.4</td></tr>
-        <tr><td>+ Google Trends</td><td>6.4</td><td><strong>5.6</strong></td></tr>
+        <tr><td>Chance</td><td>8.51</td><td>8.43</td></tr>
+        <tr><td>Country relationships only</td><td>6.77</td><td>6.41</td></tr>
+        <tr><td>+ Google Trends</td><td>6.40</td><td><strong>5.56</strong></td></tr>
       </table>
-      <p>With relationships plus search interest we beat the published reference (6.07 for audio, lyrics and YouTube views together) in the televote, using only data that exists the day before the final.</p>
+      <p>Relationships plus search interest place entries 2.1 places (jury) and 2.9 places (televote) closer to their real rank than chance, using only data that exists before the final. For comparison, Adamska and Reiss (2025) report 6.07 against 8.55 for chance, but for the combined place in 2008 to 2024, a different target and period.</p>
       <p class="note">Our win probabilities are not reliable, so we do not show them.</p>
     </section>
 
     <section id="technical">
       <h2>Technical background</h2>
-      <h3>Pipeline</h3>
-      <p>Python 3.12, pandas and DuckDB, Parquet on disk, scikit-learn and statsmodels. The whole pipeline runs offline from cached downloads:</p>
-      <pre><code>uv run esc data     # download and cache sources
-uv run esc parse    # raw files to typed tables
-uv run esc build    # join to the pair panel
-uv run esc model    # forecast and explanation
-uv run esc all</code></pre>
+      <p>The full method is in the <a href="technical-report-4.pdf">technical report (PDF)</a>.</p>
 
-      <h3>Two modes</h3>
-      <p><strong>Forecast:</strong> ridge, gradient boosting and random forest, leave-one-year-out cross-validation. A whole contest is held out each time, so nothing leaks from the future. Features: distance, border, language, colonial ties, past points and Google Trends. Metric: mean distance between predicted and actual place, against a chance baseline from simulations.</p>
-      <p><strong>Explanation:</strong> a ridge regression splits the explained variance into <em>entry only</em>, <em>relationship only</em> and <em>overlap</em>. The entry part uses the receiver effect, which is what all other countries gave the same entry. That makes it explanatory, never a forecast.</p>
+      <h3>Data</h3>
+      <p>One row is one voter giving points to one finalist in one year, as jury or as public. Zeros stay in, so every voter has a row for every other finalist. Ten finals give 19,774 rows but only 257 entries.</p>
+      <p>The pipeline runs with one command on Linux and Windows and gives the same results on both. Every raw file is pinned by a checksum, and 85 tests run offline.</p>
 
-      <h3>Design decisions</h3>
+      <h3>Validation</h3>
+      <p>Every model is trained on nine finals and tested on the tenth, once for each year. A random split would put votes from the same final into both training and test. Missing values are filled with the median of the training years.</p>
+
+      <h3>Splitting a vote</h3>
+      <p>Three ridge regressions per vote type: one sees only the entry, one only the relationship between the two countries, one both. The entry is measured by the receiver effect: the mean of what all other voters gave the same entry. The differences in R² between the three fits give the share of the entry, the share of the relationship and their overlap. Gradient boosting serves as a check.</p>
+      <p>The points A gave B beyond what the entry model predicted, averaged over all finals they met in, is the affinity of the pair. We only list pairs that met at least three times.</p>
+
+      <h3>Forecast</h3>
+      <p>A forecast may only use what exists before the final, so it never sees the receiver effect or the semi-final result. Ridge, gradient boosting and a random forest were fitted on five sets of inputs. Summing the predicted points per entry gives a ranking. The rank error is the mean distance between predicted and actual place, compared with 1,000 random rankings per final.</p>
+
+      <h3>Limits</h3>
       <ul>
-        <li>Pairs that gave zero points stay in the data as zero. Otherwise only successes remain and every coefficient is biased.</li>
-        <li>Entry-level features such as lyrics and running order made the trees worse. Within a year they identify the entry, so the trees memorise it.</li>
-        <li>Semi-final results are published only after the final, so they are never used.</li>
-        <li>Everything is seeded and sorted, so a rerun gives byte-identical files.</li>
+        <li>The receiver effect also carries the bloc votes of other voters, so the entry share is probably too high and the relationship share too low.</li>
+        <li>The best forecast was picked among five input sets on the same test years, so its gain is a little optimistic.</li>
+        <li>Russia has no rows after 2021, Belarus none after 2019.</li>
       </ul>
-
-      <h3>Example: leave-one-year-out</h3>
-      <pre><code>for year in years:
-    train = panel[panel.year != year]
-    test = panel[panel.year == year]
-    model.fit(train[features], train["points"])   # imputation median from train only
-    test["pred"] = model.predict(test[features])</code></pre>
     </section>
 
     <section id="future">
@@ -129,10 +125,13 @@ uv run esc all</code></pre>
       <ul>
         <li><strong>Audio features.</strong> The published baseline uses the sound of the song, which we have not added.</li>
         <li><strong>Better entry features.</strong> Lyrics and running order did not help the trees. A model that handles entry-level features properly might.</li>
-        <li><strong>More Trends coverage.</strong> Bosnia is missing, so 52 panel rows have no search data.</li>
+        <li><strong>More Trends coverage.</strong> 128 panel rows have no search data because nothing was queried for them.</li>
         <li><strong>Calibrated win probabilities.</strong> Entries with a predicted chance above 50 % won only one time in eight. The model needs recalibration before we can show them.</li>
         <li><strong>More history.</strong> Only ten contests have separate jury and televote data. Every new contest adds 2,000 rows.</li>
         <li><strong>Semi-finals.</strong> After the contest, their points could be added to the explanation.</li>
+        <li><strong>A model made for rankings.</strong> Ours predicts points and sums them per entry.</li>
+        <li><strong>An interval for the split.</strong> A bootstrap would show how certain the shares are.</li>
+        <li><strong>Scores before 2016.</strong> The combined points of earlier finals could be used as well.</li>
       </ul>
     </section>
 
