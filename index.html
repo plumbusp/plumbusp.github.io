@@ -1,289 +1,144 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>ESC Research | Predicting Jury & Televote Scores</title>
-  <!-- Plotly.js CDN for interactive charts -->
-  <script src="https://cdn.plot.ly/plotly-2.27.0.min.js"></script>
-  <style>
-    :root {
-      --bg-color: #0d1117;
-      --card-bg: #161b22;
-      --border-color: #30363d;
-      --text-main: #c9d1d9;
-      --text-heading: #f0f6fc;
-      --accent-blue: #58a6ff;
-      --accent-purple: #bc8cff;
-      --accent-pink: #f778ba;
-    }
-
-    * { box-sizing: border-box; margin: 0; padding: 0; }
-    body {
-      font-family: Roboto, Helvetica, Arial, sans-serif;
-      background-color: var(--bg-color);
-      color: var(--text-main);
-      line-height: 1.6;
-      padding-bottom: 60px;
-    }
-
-    header {
-      background: linear-gradient(135deg, #1f2937, #111827);
-      padding: 40px 20px;
-      text-align: center;
-      border-bottom: 1px solid var(--border-color);
-    }
-    header h1 { color: var(--text-heading); font-size: 2.2rem; margin-bottom: 10px; }
-    header p { color: var(--accent-blue); font-weight: 500; max-width: 700px; margin: 0 auto; }
-
-    nav {
-      display: flex;
-      justify-content: center;
-      background-color: var(--card-bg);
-      border-bottom: 1px solid var(--border-color);
-      position: sticky;
-      top: 0;
-      z-index: 100;
-    }
-    nav button {
-      background: none;
-      border: none;
-      color: var(--text-main);
-      padding: 14px 20px;
-      cursor: pointer;
-      font-size: 0.95rem;
-      font-weight: 600;
-      transition: all 0.2s;
-    }
-    nav button:hover { color: var(--accent-blue); }
-    nav button.active {
-      color: var(--accent-blue);
-      border-bottom: 2px solid var(--accent-blue);
-    }
-
-    .container {
-      max-width: 1000px;
-      margin: 30px auto;
-      padding: 0 20px;
-    }
-
-    .tab-content { display: none; }
-    .tab-content.active { display: block; }
-
-    .card {
-      background-color: var(--card-bg);
-      border: 1px solid var(--border-color);
-      border-radius: 8px;
-      padding: 24px;
-      margin-bottom: 24px;
-    }
-    .card h2 { color: var(--text-heading); margin-bottom: 15px; font-size: 1.4rem; }
-    .card h3 { color: var(--accent-purple); margin: 15px 0 10px; font-size: 1.1rem; }
-
-    .grid-2 {
-      display: grid;
-      grid-template-columns: 1fr 1fr;
-      gap: 20px;
-    }
-    @media (max-width: 768px) { .grid-2 { grid-template-columns: 1fr; } }
-
-    .stat-box {
-      background: #0d1117;
-      border: 1px solid var(--border-color);
-      padding: 15px;
-      border-radius: 6px;
-      text-align: center;
-    }
-    .stat-box .number { font-size: 1.8rem; font-weight: bold; color: var(--accent-pink); }
-    .stat-box .label { font-size: 0.85rem; color: var(--text-main); }
-
-    .chart-container {
-      width: 100%;
-      height: 420px;
-      margin-top: 15px;
-    }
-
-    .warning-box {
-      background-color: rgba(210, 153, 34, 0.1);
-      border-left: 4px solid #d29922;
-      padding: 12px 16px;
-      margin-top: 15px;
-      border-radius: 0 4px 4px 0;
-      font-size: 0.9rem;
-    }
-
-    footer {
-      text-align: center;
-      margin-top: 40px;
-      font-size: 0.85rem;
-      color: #8b949e;
-    }
-    footer a { color: var(--accent-blue); text-decoration: none; }
-  </style>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Eurovision: Song or Relationship?</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="style.css">
 </head>
 <body>
 
-  <header>
-    <h1>Predicting Jury & Televote Scores at Eurovision</h1>
-    <p>An empirical data science exploration of voting disparities, country ties, and forecast boundaries.</p>
-  </header>
-
   <nav>
-    <button class="nav-btn active" onclick="switchTab('overview')">Overview</button>
-    <button class="nav-btn" onclick="switchTab('eda')">EDA & Visuals</button>
-    <button class="nav-btn" onclick="switchTab('modeling')">Models & Results</button>
-    <button class="nav-btn" onclick="switchTab('ethics')">Limitations & Ethics</button>
+    <a class="brand" href="#top">ESC Research</a>
+    <ul>
+      <li><a href="#motivation">Motivation</a></li>
+      <li><a href="#dataset">Dataset</a></li>
+      <li><a href="#visualization">Visualization</a></li>
+      <li><a href="#prediction">Prediction</a></li>
+      <li><a href="#technical">Technical</a></li>
+      <li><a href="#future">Future</a></li>
+    </ul>
   </nav>
 
-  <div class="container">
+  <header id="top">
+    <h1>Song or relationship?</h1>
+    <p>What decides the points in the Eurovision Song Contest.</p>
+  </header>
 
-    <!-- OVERVIEW TAB -->
-    <section id="overview" class="tab-content active">
-      <div class="card">
-        <h2>Executive Summary</h2>
-        <p>This project models and predicts the Eurovision Song Contest (ESC) final outcomes by training machine learning models on jury and televote data separately[cite: 1]. We integrate historical voting, Google Trends pre-contest interest, Spotify features, and country-pair socio-economic indicators (migration, geographic distance, shared language)[cite: 1].</p>
+  <main>
+
+    <section id="motivation">
+      <h2>Motivation</h2>
+      <p>Every May, forty countries sing and then vote for each other. Greece gives Cyprus twelve points almost every year. Moldova and Romania do the same. Is that because the song is good, or because they are neighbours?</p>
+      <p>Our question: <strong>how much of the points a country awards is explained by the song itself, and how much by the relationship between the two countries? And does this differ between the jury and the public vote?</strong></p>
+      <p>Since 2016 the jury and the televote are published separately. A jury is five music professionals, the televote is the public. If friendship matters anywhere, it should matter more in the televote. Earlier studies looked at combined points. We split them.</p>
+      <p>Instead of looking at songs, we look at <strong>pairs</strong>: country A gives points to country B in one year. Ten contests have only about 260 finalists, but they give 19,800 such pair votes. That is enough data to say something real.</p>
+    </section>
+
+    <section id="dataset">
+      <h2>Dataset description</h2>
+      <p>One row is one directed pair in one contest: who gives, who receives, how many points, jury or televote. Finals only, 2016 to 2026 (2020 was cancelled).</p>
+      <div class="cards">
+        <div class="card"><span class="big">19,800</span>pair rows</div>
+        <div class="card"><span class="big">10</span>contests</div>
+        <div class="card"><span class="big">2</span>vote types</div>
       </div>
+      <h3>Sources</h3>
+      <ul>
+        <li><strong>Votes and entries:</strong> the Spijkervet Eurovision dataset up to 2023, eurovisionworld.com from 2024.</li>
+        <li><strong>Country relationship:</strong> CEPII GeoDist, with distance, shared border, shared language and colonial ties.</li>
+        <li><strong>Past points:</strong> all voting history since 1957, used only to say how much two countries liked each other before.</li>
+        <li><strong>Attention:</strong> Google Trends, per voting country, for the artist and the song, cut the day before the final.</li>
+        <li><strong>Lyrics:</strong> sentiment, repetition and theme of each song.</li>
+        <li><strong>Artists:</strong> age and sex from Wikidata.</li>
+      </ul>
+      <p>We deliberately do not use YouTube views. They are only available as of today, so a winner would get views it earned because it won.</p>
+    </section>
 
-      <div class="grid-2">
-        <div class="stat-box">
-          <div class="number">0.43</div>
-          <div class="label">Spearman Correlation between Jury & Public Points (257 entries)[cite: 1]</div>
-        </div>
-        <div class="stat-box">
-          <div class="number">5.56 Places</div>
-          <div class="label">Gradient Boosting Public Rank Error (vs. 8.43 Random Chance)[cite: 1]</div>
-        </div>
-      </div>
-
-      <div class="card" style="margin-top: 24px;">
-        <h2>Target Group & Objective</h2>
-        <p><strong>Primary Audience:</strong> Prediction market users and ESC contestants[cite: 1].</p>
-        <p><strong>Value Delivered:</strong> Gives contestants statistical insights into potential geopolitical and voting advantages, while enabling prediction market users to assess model performance boundaries[cite: 1].</p>
-        
-        <div class="warning-box">
-          <strong>Disclaimer:</strong> Model forecasts are rough and intended purely for statistical research[cite: 1]. They should not be treated as financial or betting advice[cite: 1].
-        </div>
+    <section id="visualization">
+      <h2>Visualization</h2>
+      <div class="gallery">
+        <figure>
+          <img src="img/explorer.png" alt="Country explorer">
+          <figcaption>The country explorer: who gives more points to whom than the song alone explains.</figcaption>
+        </figure>
       </div>
     </section>
 
-    <!-- EDA TAB -->
-    <section id="eda" class="tab-content">
-      <div class="card">
-        <h2>Exploratory Data Analysis</h2>
-        <p>Because jury and televote results agree only loosely, we forecast them as separate target variables[cite: 1]. Below is an interactive analysis of how jury and public scores compare across entries[cite: 1].</p>
-        
-        <div id="chart-scatter" class="chart-container"></div>
+    <section id="prediction" class="highlight">
+      <h2>Prediction results</h2>
+      <h3>Who explains the points?</h3>
+      <p>Share of the points explained on years the model never saw:</p>
+      <div class="cards">
+        <div class="card"><span class="big">2.8 %</span>jury: relationship</div>
+        <div class="card"><span class="big">12.5 %</span>televote: relationship</div>
+        <div class="card"><span class="big">4&times;</span>more in the televote</div>
       </div>
+      <p>The song (the entry itself) explains 25 % of the jury points and 40 % of the televote points. The relationship between countries explains <strong>four times more for the public than for the jury</strong>. Juries judge the song. The public also votes for its friends.</p>
+
+      <h3>Strongest friendships</h3>
+      <p>Points given beyond what the song earned, at least three meetings: <strong>Greece to Cyprus +10.5</strong> and <strong>North Macedonia to Albania +10.4</strong> in the televote, Montenegro to Serbia +9.8 in the jury.</p>
+
+      <h3>Can we forecast the ranking?</h3>
+      <p>We predict each year without ever seeing it, and measure how far off the predicted place is. Random guessing is off by 8.4 places.</p>
+      <table>
+        <tr><th>Model</th><th>Jury error</th><th>Televote error</th></tr>
+        <tr><td>Chance</td><td>8.5</td><td>8.4</td></tr>
+        <tr><td>Country relationships only</td><td>6.8</td><td>6.4</td></tr>
+        <tr><td>+ Google Trends</td><td>6.4</td><td><strong>5.6</strong></td></tr>
+      </table>
+      <p>With relationships plus search interest we beat the published reference (6.07 for audio, lyrics and YouTube views together) in the televote, using only data that exists the day before the final.</p>
+      <p class="note">Our win probabilities are not reliable, so we do not show them.</p>
     </section>
 
-    <!-- MODELING TAB -->
-    <section id="modeling" class="tab-content">
-      <div class="card">
-        <h2>Modeling & Evaluation</h2>
-        <p>We trained and evaluated three machine learning approaches using Leave-One-Final-Out cross-validation across 10 finals[cite: 1]:</p>
-        <ul>
-          <li><strong>Ridge Regression</strong>[cite: 1]</li>
-          <li><strong>Gradient Boosting</strong> (Best Performing)[cite: 1]</li>
-          <li><strong>Random Forest</strong>[cite: 1]</li>
-        </ul>
-        
-        <h3>Model Error Comparison (Mean Rank Error)</h3>
-        <div id="chart-models" class="chart-container"></div>
-      </div>
+    <section id="technical">
+      <h2>Technical background</h2>
+      <h3>Pipeline</h3>
+      <p>Python 3.12, pandas and DuckDB, Parquet on disk, scikit-learn and statsmodels. The whole pipeline runs offline from cached downloads:</p>
+      <pre><code>uv run esc data     # download and cache sources
+uv run esc parse    # raw files to typed tables
+uv run esc build    # join to the pair panel
+uv run esc model    # forecast and explanation
+uv run esc all</code></pre>
 
-      <div class="card">
-        <h2>Key Takeaways & Surprise Findings</h2>
-        <p>✔ <strong>What Worked:</strong> Incorporating CEPII country-pair data (migration, distance, border, language) and Google Trends search interest significantly improved predictions beyond random chance[cite: 1].</p>
-        <p>✖ <strong>What Didn't Work:</strong> Incorporating song lyric classifications and running order placement actually <em>degraded</em> forecast accuracy[cite: 1].</p>
-        <p>⚠️ <strong>Winning Probability Calibration:</strong> Winning probabilities were highly unstable—only 1 out of 8 entries assigned a >50% predicted chance actually won the public vote[cite: 1].</p>
-      </div>
+      <h3>Two modes</h3>
+      <p><strong>Forecast:</strong> ridge, gradient boosting and random forest, leave-one-year-out cross-validation. A whole contest is held out each time, so nothing leaks from the future. Features: distance, border, language, colonial ties, past points and Google Trends. Metric: mean distance between predicted and actual place, against a chance baseline from simulations.</p>
+      <p><strong>Explanation:</strong> a ridge regression splits the explained variance into <em>entry only</em>, <em>relationship only</em> and <em>overlap</em>. The entry part uses the receiver effect, which is what all other countries gave the same entry. That makes it explanatory, never a forecast.</p>
+
+      <h3>Design decisions</h3>
+      <ul>
+        <li>Pairs that gave zero points stay in the data as zero. Otherwise only successes remain and every coefficient is biased.</li>
+        <li>Entry-level features such as lyrics and running order made the trees worse. Within a year they identify the entry, so the trees memorise it.</li>
+        <li>Semi-final results are published only after the final, so they are never used.</li>
+        <li>Everything is seeded and sorted, so a rerun gives byte-identical files.</li>
+      </ul>
+
+      <h3>Example: leave-one-year-out</h3>
+      <pre><code>for year in years:
+    train = panel[panel.year != year]
+    test = panel[panel.year == year]
+    model.fit(train[features], train["points"])   # imputation median from train only
+    test["pred"] = model.predict(test[features])</code></pre>
     </section>
 
-    <!-- ETHICS TAB -->
-    <section id="ethics" class="tab-content">
-      <div class="card">
-        <h2>Limitations & Ethical Considerations</h2>
-        <h3>Data Quality Limitations</h3>
-        <p>Google Trends values below the interest threshold return zero, hiding subtle pre-contest interest[cite: 1]. Lyric NLP labels may also suffer reduced accuracy for non-English songs[cite: 1]. Recent geopolitical changes mean countries like Russia and Belarus are missing from recent years[cite: 1].</p>
-
-        <h3>Data Privacy</h3>
-        <p>All data analyzed consists of public contest scores, public search trends, and aggregated country metrics[cite: 1]. Individuals represented in the data are public figures (performing artists), requiring no consent procedures[cite: 1].</p>
-      </div>
+    <section id="future">
+      <h2>Future improvements</h2>
+      <ul>
+        <li><strong>Audio features.</strong> The published baseline uses the sound of the song, which we have not added.</li>
+        <li><strong>Better entry features.</strong> Lyrics and running order did not help the trees. A model that handles entry-level features properly might.</li>
+        <li><strong>More Trends coverage.</strong> Bosnia is missing, so 52 panel rows have no search data.</li>
+        <li><strong>Calibrated win probabilities.</strong> Entries with a predicted chance above 50 % won only one time in eight. The model needs recalibration before we can show them.</li>
+        <li><strong>More history.</strong> Only ten contests have separate jury and televote data. Every new contest adds 2,000 rows.</li>
+        <li><strong>Semi-finals.</strong> After the contest, their points could be added to the explanation.</li>
+      </ul>
     </section>
 
-    <footer>
-      <p>ESC Research Project | Repository on <a href="https://github.com/timkicker/esc-research" target="_blank">GitHub</a></p>
-    </footer>
-  </div>
+  </main>
 
-  <script>
-    // --- TAB SWITCHING LOGIC ---
-    function switchTab(tabId) {
-      document.querySelectorAll('.tab-content').forEach(tab => tab.classList.remove('active'));
-      document.querySelectorAll('.nav-btn').forEach(btn => btn.classList.remove('active'));
+  <footer>ESC Research · Data Science project</footer>
 
-      document.getElementById(tabId).classList.add('active');
-      event.currentTarget.classList.add('active');
-
-      // Trigger Plotly resize when switching tabs to ensure responsive rendering
-      window.dispatchEvent(new Event('resize'));
-    }
-
-    // --- PLOTLY INTERACTIVE CHARTS ---
-    document.addEventListener('DOMContentLoaded', () => {
-      
-      // Chart 1: Jury vs Public Points Scatter
-      const scatterData = [{
-        x: [120, 45, 210, 15, 80, 290, 5, 160],
-        y: [40, 190, 230, 20, 95, 140, 110, 175],
-        mode: 'markers+text',
-        type: 'scatter',
-        text: ['Entry A', 'Outlier (Public Fan Fav)', 'Entry C', 'Entry D', 'Entry E', 'Outlier (Jury Fav)', 'Entry G', 'Entry H'],
-        textposition: 'top center',
-        marker: { size: 10, color: '#58a6ff' }
-      }];
-
-      const scatterLayout = {
-        title: { text: 'Jury Points vs. Public Points per Entry', font: { color: '#f0f6fc' } },
-        paper_bgcolor: '#161b22',
-        plot_bgcolor: '#161b22',
-        xaxis: { title: 'Jury Points', color: '#c9d1d9', gridcolor: '#30363d' },
-        yaxis: { title: 'Public Points', color: '#c9d1d9', gridcolor: '#30363d' },
-        showlegend: false
-      };
-
-      Plotly.newPlot('chart-scatter', scatterData, scatterLayout, {responsive: true});
-
-      // Chart 2: Model Performance Bar Chart
-      const modelData = [
-        {
-          x: ['Random Order (Baseline)', 'Gradient Boosting (Main)'],
-          y: [8.43, 5.56],
-          name: 'Public Vote Error',
-          type: 'bar',
-          marker: { color: '#f778ba' }
-        },
-        {
-          x: ['Random Order (Baseline)', 'Gradient Boosting (Main)'],
-          y: [8.51, 6.40],
-          name: 'Jury Vote Error',
-          type: 'bar',
-          marker: { color: '#bc8cff' }
-        }
-      ];
-
-      const modelLayout = {
-        title: { text: 'Mean Rank Error (Lower is Better)', font: { color: '#f0f6fc' } },
-        barmode: 'group',
-        paper_bgcolor: '#161b22',
-        plot_bgcolor: '#161b22',
-        xaxis: { color: '#c9d1d9', gridcolor: '#30363d' },
-        yaxis: { title: 'Places Off Target', color: '#c9d1d9', gridcolor: '#30363d' },
-        legend: { font: { color: '#c9d1d9' } }
-      };
-
-      Plotly.newPlot('chart-models', modelData, modelLayout, {responsive: true});
-    });
-  </script>
 </body>
 </html>
