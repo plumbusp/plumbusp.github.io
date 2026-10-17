@@ -1,10 +1,9 @@
-´´<!doctype html>
+<!doctype html>
 <html lang="en">
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>Predicting Winners in the Eurovision Song Contest
-</title>
+  <title>Predicting Winners in the Eurovision Song Contest</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600;800&display=swap" rel="stylesheet">
@@ -25,8 +24,7 @@
   </nav>
 
   <header id="top">
-    <h1>Predicting Winners in the Eurovision Song Contest
-</h1></h1>
+    <h1>Predicting Winners in the Eurovision Song Contest</h1>
     <p>By Tim Kicker, Yauheni Zviazdou, Anna-Ilona Nikolaeva</p>
   </header>
 
@@ -38,6 +36,7 @@
       <p>But are we aware of who should win statistically? In this project we analized previoous Eurovion competetions to try to get valuable insights on trends, crowd and jurys' favorites, and general statistics that define winners.</p>
       <p>We wanted to benefit prediction market users to make smarter bets, as well as provide insights for competing Eurovision artists on what are theit statistical advntages/disadvatages.</p>
       <p>we also wanted to explore how shared borders and langugaes between countries influnce votings.</p>
+
     </section>
 
     <section id="dataset">
@@ -62,12 +61,56 @@
 
     <section id="visualization">
       <h2>Visualizations</h2>
+      <p class="lead">We looked at how winners are distributed across categories, and which factors are most associated with winning, i.e. with the highest finalist-to-winner conversion.</p>
+
       <div class="gallery">
         <figure>
-          <img src="img/winners_are_younger.png" alt="Winners are younger than finalists, and the age distribution of winners is more concentrated.">
-          <figcaption>From solo artists (with exact birthdate known), winners are most likely to come from the category of age 25-29 have the biggest finalist/winners ratio. Also winners are a little younger than finalists, with the median age 26 againts 27 for all finalists.</figcaption>
-          <img src="img/winners_in_20s.png" alt="Most of the winners are in their 20s">
+          <img src="img/winners_are_younger.png" width="975" height="491" loading="lazy" alt="Winners are younger than finalists, and the age distribution of winners is more concentrated.">
+          <figcaption>Among solo artists with a known birth date, winners most often come from the 25–29 age group, which also has the highest winner-to-finalist ratio. Winners are also slightly younger than finalists: median age 26 against 27.</figcaption>
+        </figure>
+
+        <figure>
+          <img src="img/winners_in_20s.png" width="1085" height="491" loading="lazy" alt="Most of the winners are in their 20s">
           <figcaption>Every dot is one winner. The grey line is the median age of all solo finalists that year.</figcaption>
+        </figure>
+
+        <figure>
+          <img src="img/solo_women_win.png" width="975" height="491" loading="lazy" alt="Gender of winners against all finalists: solo women win about as often as their share of the field.">
+          <figcaption>1956–2026. "Other" is how Wikidata records non-binary and intersex artists. Entries with no recorded gender (bands, duos, and solo artists missing from Wikidata) are shown as a separate group.</figcaption>
+        </figure>
+
+        <figure>
+          <img src="img/women_among_winners.png" width="975" height="469" loading="lazy" alt="Share of women among solo winners and solo finalists: slightly above their share in the 2010s, roughly even in the 2020s.">
+        </figure>
+      </div>
+
+      <p>We also looked at how the language and content of the lyrics relate to winning, using lyrics from the 2008–2026 contests (2010 is missing: no lyrics data).</p>
+
+      <div class="gallery">
+        <figure>
+          <img src="img/Song_language.png" width="810" height="469" loading="lazy" alt="Song language distribution among winners and finalists.">
+          <figcaption>English dominates among winners, and English-language songs convert from finalist to winner more often than songs in other languages.</figcaption>
+        </figure>
+
+        <figure>
+          <img src="img/what_are%20_lyrics_about.png" width="1320" height="501" loading="lazy" alt="Song lyrics themes distribution among winners and finalists.">
+          <figcaption>We labelled lyrics by mood and theme. Across these contests, sad songs have the highest finalist-to-winner conversion, as do themes such as "society" and "folklore". However, our prediction models later showed that these features are mostly noise.</figcaption>
+        </figure>
+      </div>
+
+      <p>We used Google searches to measure pre-final interest in each song (Google Trends, 2016–2026). These features later turned out to clearly improve our predictions.</p>
+
+      <div class="gallery">
+        <figure>
+          <img src="img/google_searches_before_final.png" width="1415" height="513" loading="lazy" alt="Google trends search interest distribution among winners and finalists.">
+        </figure>
+      </div>
+
+      <p>Bonus: the countries with the most wins.</p>
+
+      <div class="gallery">
+        <figure>
+          <img src="img/contries_with_most_%20wins.png" width="1200" height="542" loading="lazy" alt="Countries with most wins.">
         </figure>
       </div>
     </section>

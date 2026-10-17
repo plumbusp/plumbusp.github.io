@@ -97,14 +97,17 @@ h2 {
 }
 
 /* visualization */
+.lead { font-size: 1.1rem; font-weight: 600; }
+
+/* one chart per row: the charts are wide and their labels get unreadable in two columns */
 .gallery {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-  gap: 24px;
+  gap: 40px;
+  margin: 24px 0 48px;
 }
 
 figure { margin: 0; }
-figure img { width: 100%; border-radius: 8px; border: 1px solid var(--light-blue); }
+figure img { display: block; width: 100%; height: auto; border-radius: 8px; border: 1px solid var(--light-blue); }
 figcaption { margin-top: 8px; font-size: 0.85rem; opacity: 0.7; }
 
 /* prediction cards */
