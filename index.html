@@ -32,10 +32,10 @@
 
     <section id="motivation">
       <h2>Motivation</h2>
-      <p>Since 1962, every year European coutry gather together together to compete for the best song. Eurovision is in the center of attention each ... and betting markets start booing around that time with predictions of winners.</p>
-      <p>But are we aware of who should win statistically? In this project we analized previoous Eurovion competetions to try to get valuable insights on trends, crowd and jurys' favorites, and general statistics that define winners.</p>
-      <p>We wanted to benefit prediction market users to make smarter bets, as well as provide insights for competing Eurovision artists on what are theit statistical advntages/disadvatages.</p>
-      <p>we also wanted to explore how shared borders and langugaes between countries influnce votings.</p>
+      <p>Since 1956, European countries have come together every year to compete for the best song. Eurovision is in the center of attention each May, and betting markets start booming around that time with predictions of the winner.</p>
+      <p>But do we know who should win, statistically? In this project we analyzed previous Eurovision contests to get insights into trends, the public's and the juries' favorites, and the general statistics that define winners.</p>
+      <p>We wanted to help prediction market users make smarter bets, and to give competing Eurovision artists insights into their statistical advantages and disadvantages.</p>
+      <p>We also wanted to explore how shared borders and languages between countries influence voting.</p>
 
     </section>
 
@@ -65,121 +65,133 @@
 
       <div class="gallery">
         <figure>
-          <img src="img/winners_are_younger.png" width="975" height="491" loading="lazy" alt="Winners are younger than finalists, and the age distribution of winners is more concentrated.">
-          <figcaption>Among solo artists with a known birth date, winners most often come from the 25–29 age group, which also has the highest winner-to-finalist ratio. Winners are also slightly younger than finalists: median age 26 against 27.</figcaption>
-        </figure>
-
-        <figure>
-          <img src="img/winners_in_20s.png" width="1085" height="491" loading="lazy" alt="Most of the winners are in their 20s">
+          <img src="img/slide04_winners_age.png" width="1085" height="491" loading="lazy" alt="Most of the winners are in their 20s">
           <figcaption>Every dot is one winner. The grey line is the median age of all solo finalists that year.</figcaption>
-        </figure>
-
-        <figure>
-          <img src="img/solo_women_win.png" width="975" height="491" loading="lazy" alt="Gender of winners against all finalists: solo women win about as often as their share of the field.">
-          <figcaption>1956–2026. "Other" is how Wikidata records non-binary and intersex artists. Entries with no recorded gender (bands, duos, and solo artists missing from Wikidata) are shown as a separate group.</figcaption>
-        </figure>
-
-        <figure>
-          <img src="img/women_among_winners.png" width="975" height="469" loading="lazy" alt="Share of women among solo winners and solo finalists: slightly above their share in the 2010s, roughly even in the 2020s.">
         </figure>
       </div>
 
-      <p>We also looked at how the language and content of the lyrics relate to winning, using lyrics from the 2008–2026 contests (2010 is missing: no lyrics data).</p>
+      <p>We also looked at how the language and content of the lyrics relate to winning, using lyrics from the 2008-2026 contests (2010 is missing: no lyrics data).</p>
 
       <div class="gallery">
         <figure>
-          <img src="img/Song_language.png" width="810" height="469" loading="lazy" alt="Song language distribution among winners and finalists.">
+          <img src="img/slide05_song_language.png" width="810" height="469" loading="lazy" alt="Song language distribution among winners and finalists.">
           <figcaption>English dominates among winners, and English-language songs convert from finalist to winner more often than songs in other languages.</figcaption>
         </figure>
 
         <figure>
-          <img src="img/what_are%20_lyrics_about.png" width="1320" height="501" loading="lazy" alt="Song lyrics themes distribution among winners and finalists.">
+          <img src="img/slide05_running_order.png" width="975" height="469" loading="lazy" alt="Share of winners by position in the running order: winners tend to perform late.">
+          <figcaption>Winners tend to perform late: 36 % of the 72 winners performed in the last quarter of the running order, and only 12 % in the first quarter.</figcaption>
+        </figure>
+
+        <figure>
+          <img src="img/slide06_lyrics_mood_theme.png" width="1320" height="501" loading="lazy" alt="Song lyrics themes distribution among winners and finalists.">
           <figcaption>We labelled lyrics by mood and theme. Across these contests, sad songs have the highest finalist-to-winner conversion, as do themes such as "society" and "folklore". However, our prediction models later showed that these features are mostly noise.</figcaption>
         </figure>
       </div>
 
-      <p>We used Google searches to measure pre-final interest in each song (Google Trends, 2016–2026). These features later turned out to clearly improve our predictions.</p>
+      <p>We used Google searches to measure pre-final interest in each song (Google Trends, 2016-f2026). These features later turned out to clearly improve our predictions.</p>
 
       <div class="gallery">
         <figure>
-          <img src="img/google_searches_before_final.png" width="1415" height="513" loading="lazy" alt="Google trends search interest distribution among winners and finalists.">
-        </figure>
-      </div>
-
-      <p>Bonus: the countries with the most wins.</p>
-
-      <div class="gallery">
-        <figure>
-          <img src="img/contries_with_most_%20wins.png" width="1200" height="542" loading="lazy" alt="Countries with most wins.">
+          <img src="img/slide07_google_searches.png" width="1415" height="513" loading="lazy" alt="Google trends search interest distribution among winners and finalists.">
+          <figcaption>10 of the 17 winners were among the 3 most searched songs before the final.</figcaption>
         </figure>
       </div>
     </section>
 
     <section id="prediction" class="highlight">
       <h2>Prediction results</h2>
-      <h3>Who explains the points?</h3>
-      <p>Share of the points explained on years the model never saw:</p>
+      <p>So, can we actually tell who is going to win Eurovision the day before the final? Partly yes!</p>
+      <p>We predicted how many points every country gives every other country, using only what is already known before the show: how these two countries voted for each other in the past, how much people in the voting country googled the song, the distance between the countries, shared language and the running order. Then we added up the predicted points for every song and got our own scoreboard.</p>
+
       <div class="cards">
-        <div class="card"><span class="big">2.8 %</span>jury: relationship</div>
-        <div class="card"><span class="big">12.5 %</span>televote: relationship</div>
-        <div class="card"><span class="big">4.5&times;</span>more in the televote</div>
+        <div class="card"><span class="big">1st, 3rd, 3rd</span>where we put the real winners of 2024-2026</div>
+        <div class="card"><span class="big">9 of 18</span>finals with the winner in our top three</div>
+        <div class="card"><span class="big">5.7</span>average place of the winner (random guess: 13.3)</div>
       </div>
-      <p>The song (the entry itself) explains 25 % of the jury points and 40 % of the televote points. The relationship between countries explains <strong>four and a half times more for the public than for the jury</strong>. Juries judge the song. The public also votes for its friends.</p>
 
-      <h3>Strongest friendships</h3>
-      <p>Points given beyond what the song earned, at least three meetings: <strong>Greece to Cyprus +10.5</strong> and <strong>North Macedonia to Albania +10.4</strong> in the televote, Montenegro to Serbia +9.8 in the jury.</p>
+      <h3>Which factors matter?</h3>
+      <p>Past points, web interest and running position usually went together with high scores, while neutral lyrics tended to receive lower scores. A longer distance between two countries also meant fewer points between them.</p>
+      <p>Google searches turned out to be one of the most important things. Without them the validation winners dropped from predicted 1st, 2nd and 1st places to 2nd, 9th and 18th respectively. On the other hand, lyrics turned out to be noise (in the data format that we had): leaving them out changed nothing in the predictions.</p>
 
-      <h3>Can we forecast the ranking?</h3>
-      <p>We predict each year without ever seeing it, and measure how far off the predicted place is. Random guessing is off by 8.5 places for the jury and 8.4 for the televote.</p>
+      <div class="gallery">
+        <figure>
+          <img src="img/report_feature_groups_ablation.png" width="1376" height="409" loading="lazy" alt="Predicted place of the real winner of 2021-2023 when one group of features is left out.">
+          <figcaption>The forest with all features (blue line) against the same forest without one group of features, on the validation finals. Google searches affected predictions the most, while lyrics turned out to be noise and didn't influence predictions.</figcaption>
+        </figure>
+      </div>
+
+      <h3>Can we predict the winner?</h3>
+      <p>Our best model (gradient boosting, without the artist and lyrics features) learned from the finals of 2008-2019 and was picked by how well it found the winners of 2021-2023, and then used to predict winners of 2024-2026. It put Switzerland in 1st place and Austria and Bulgaria in 3rd. A random guess would put the winner somewhere around 13th.</p>
+      <p>We also tried leaving out each of the 18 finals one at a time and predicting it from all the others. The real winner came 1st in 4 finals and was in our top three in 9. The biggest misses were Germany in 2010 (the year we have no search data for) and Portugal in 2017, both of which we put 16th.</p>
+
+      <div class="gallery">
+        <figure>
+          <img src="img/photo_2026-10-18_18-01-37.png" width="1280" height="272" loading="lazy" alt="Leave one year out: predicted place of the real winner for each final from 2008 to 2026.">
+          <figcaption>Every final left out once and predicted from the others. The settings were chosen on 2021-2023, so those years look better than fresh data would.</figcaption>
+        </figure>
+      </div>
+
+      <h3>Jury and public: an overview</h3>
+      <p>Since 2016 the jury and the public vote separately, so for 2016-2026 our pipeline also predicts the two rankings on their own. Each year is left out once and predicted from all the others.</p>
       <table>
-        <tr><th>Model</th><th>Jury error</th><th>Televote error</th></tr>
-        <tr><td>Chance</td><td>8.51</td><td>8.43</td></tr>
-        <tr><td>Country relationships only</td><td>6.77</td><td>6.41</td></tr>
-        <tr><td>+ Google Trends</td><td>6.40</td><td><strong>5.56</strong></td></tr>
+        <tr><th>Model</th><th>Jury error (lower is better)</th><th>Public error (lower is better)</th></tr>
+        <tr><td>Random order</td><td>8.51</td><td>8.43</td></tr>
+        <tr><td>Country pairs only, without searches</td><td>6.77</td><td>6.41</td></tr>
+        <tr><td>Country pairs + Google searches</td><td>6.40</td><td><strong>5.56</strong></td></tr>
       </table>
-      <p>Relationships plus search interest place entries 2.1 places (jury) and 2.9 places (televote) closer to their real rank than chance, using only data that exists before the final. For comparison, Adamska and Reiss (2025) report 6.07 against 8.55 for chance, but for the combined place in 2008 to 2024, a different target and period.</p>
-      <p class="note">Our win probabilities are not reliable, so we do not show them.</p>
+      <p>The numbers are how many places a song is off on average, so lower is better. Google searches help the public ranking about twice as much as the jury's. Also, the jury ranking correlates with the public one at only 0.43 (Spearman). When we compute the earlier votes from the training years alone, these numbers change by at most 0.13 places. They are a different check from the winner results above, and the features were chosen on the same years, so the two can't be compared directly.</p>
+      <p>For orientation, Adamska and Reiss (2025) also leave out one year at a time (2008-2024). They get 6.07 places in the final with audio, lyrics, YouTube views, running order and voting history, 6.05 with YouTube views alone and 7.59 with running order and voting history. That last set is the closest to ours, and chance in their setup is 8.55.</p>
+      <p class="note">We also simulated win chances 2,000 times per final from the errors of the public model. Of the eight songs that got more than 50 %, only one actually won, so we don't show these numbers.</p>
     </section>
 
     <section id="technical">
       <h2>Technical background</h2>
-      <p>The full method is in the <a href="technical-report-4.pdf">technical report (PDF)</a>.</p>
+      <p>If you want all the details, everything is in our <a href="technical-report-13.pdf">technical report (PDF)</a>, and the code is public on <a href="https://github.com/timkicker/esc-research">GitHub</a>.</p>
 
-      <h3>Data</h3>
-      <p>One row is one voter giving points to one finalist in one year, as jury or as public. Zeros stay in, so every voter has a row for every other finalist. Ten finals give 19,774 rows but only 257 entries.</p>
-      <p>The pipeline runs with one command on Linux and Windows and gives the same results on both. Every raw file is pinned by a checksum, and 85 tests run offline.</p>
+      <h3>What one row means</h3>
+      <p>Instead of one row per song, one row in our data is one country giving points to another country in one final. For example, in 2024 the Greek jury gave Cyprus 10 points and the Greek public gave 12, so that row gets 11. We did it this way because the 18 finals from 2008 to 2026 (2020 was cancelled) only have 462 songs, which is way too few to learn from, but they have 18,069 country pairs. Things like distance or past votes also only exist for a pair of countries anyway.</p>
+      <p>Up to 2015 every country had one vote, and since 2016 the jury and the public vote separately. So from 2016 we take half of jury plus public, and every year stays on the same 0 to 12 scale.</p>
 
-      <h3>Validation</h3>
-      <p>Every model is trained on nine finals and tested on the tenth, once for each year. A random split would put votes from the same final into both training and test. Missing values are filled with the median of the training years.</p>
+      <h3>The Rest of the World bug</h3>
+      <p>Since 2023, viewers from countries without an entry vote together as "Rest of the World". That is only a public vote, without a jury. To get one score per country we average jury and public, but for Rest of the World this "average" was just its full public score, so it counted twice as much as a real country. Because of that, our scoreboard didn't match the official results for 40 songs. Now it's halved like everyone else, and our scoreboard matches the official one exactly.</p>
+      <p>All our models use a fixed random seed, so this fix is the only reason the numbers changed after the presentation. If we undo it, we get exactly the presentation numbers again (winners 1st, 4th, 4th). With the fix it's 1st, 3rd, 3rd, so we kept the new ones.</p>
 
-      <h3>Splitting a vote</h3>
-      <p>Three ridge regressions per vote type: one sees only the entry, one only the relationship between the two countries, one both. The entry is measured by the receiver effect: the mean of what all other voters gave the same entry. The differences in R² between the three fits give the share of the entry, the share of the relationship and their overlap. Gradient boosting serves as a check.</p>
-      <p>The points A gave B beyond what the entry model predicted, averaged over all finals they met in, is the affinity of the pair. We only list pairs that met at least three times.</p>
+      <h3>Google searches</h3>
+      <p>Google Trends gives us how much each voting country searched for each song, on web search and YouTube, during the 30 days before the final. It doesn't give real search numbers: it scales the country with the most interest to 100 and shares that scale between everything you ask for at once. Our first download asked for several songs together and came back almost all zeros, so we queried every song on its own. We also checked that the final itself never sneaks into the window: the query stops the day before, and the show starts at about 19:00 UTC.</p>
 
-      <h3>Forecast</h3>
-      <p>A forecast may only use what exists before the final, so it never sees the receiver effect or the semi-final result. Ridge, gradient boosting and a random forest were fitted on five sets of inputs. Summing the predicted points per entry gives a ranking. The rank error is the mean distance between predicted and actual place, compared with 1,000 random rankings per final.</p>
+      <h3>No peeking at the future</h3>
+      <p>A forecast can only use what exists before the final. So semi-final points are out (they are published after the final), and so are YouTube views, since you can only get today's count, which already includes all the views a winner got for winning.</p>
+      <p>We split the finals by year and never at random, because votes from the same final depend on each other. We trained on 2008-2019, chose the model on 2021-2023 and tested on 2024-2026. Missing values are filled with the median of the training years.</p>
+
+      <h3>Models</h3>
+      <p>We tried seven models with scikit-learn: linear regression, lasso, random forests and gradient boosting, some with and some without the artist and lyrics features. We picked the one that put the real winners of 2021-2023 highest. Two models found all three winners there, so the tie went to the one with the higher R² (0.206 against 0.183): gradient boosting with learning rate 0.03, depth 3, at least 50 rows per leaf and 300 rounds.</p>
+      <p>The lyrics were labelled by mood, theme and repetition with a language model (gpt-oss-120b), which could only answer with fixed categories. The age and sex of solo artists come from Wikidata.</p>
+
+      <h3>Pipeline</h3>
+      <p>The pipeline is written in Python with pandas. One command (<code>uv run esc all</code>) downloads, cleans and joins all the sources, every download is pinned with a checksum, and the tests run offline. Because the pipeline was hard to follow for the rest of the group, it also writes one CSV file, so all three of us could work on the data without running it.</p>
 
       <h3>Limits</h3>
       <ul>
-        <li>The receiver effect also carries the bloc votes of other voters, so the entry share is probably too high and the relationship share too low.</li>
-        <li>The best forecast was picked among five input sets on the same test years, so its gain is a little optimistic.</li>
-        <li>Russia has no rows after 2021, Belarus none after 2019.</li>
+        <li>Three test finals are very few, so any difference below one place could just be luck.</li>
+        <li>We decided to measure the winner's place only after seeing the first results, and we had looked at the test finals with earlier versions of the models, so they weren't completely untouched.</li>
+        <li>Search data before 2016 are mostly empty, and bands have no age or sex.</li>
+        <li>Averaging jury and public mixes two votes that often don't agree.</li>
       </ul>
     </section>
 
     <section id="future">
       <h2>Future improvements</h2>
+      <p>There is a lot we would still like to try:</p>
       <ul>
-        <li><strong>Audio features.</strong> The published baseline uses the sound of the song, which we have not added.</li>
-        <li><strong>Better entry features.</strong> Lyrics and running order did not help the trees. A model that handles entry-level features properly might.</li>
-        <li><strong>More Trends coverage.</strong> 128 panel rows have no search data because nothing was queried for them.</li>
-        <li><strong>Calibrated win probabilities.</strong> Entries with a predicted chance above 50 % won only one time in eight. The model needs recalibration before we can show them.</li>
-        <li><strong>More history.</strong> Only ten contests have separate jury and televote data. Every new contest adds 2,000 rows.</li>
-        <li><strong>Semi-finals.</strong> After the contest, their points could be added to the explanation.</li>
-        <li><strong>A model made for rankings.</strong> Ours predicts points and sums them per entry.</li>
-        <li><strong>An interval for the split.</strong> A bootstrap would show how certain the shares are.</li>
-        <li><strong>Scores before 2016.</strong> The combined points of earlier finals could be used as well.</li>
+        <li><strong>A better model.</strong> For example a neural network, or a model that learns rankings directly instead of predicting points and adding them up.</li>
+        <li><strong>The songs themselves.</strong> Processing the actual video clips and the audio of the songs, which we had to drop because it was too much for this course.</li>
+        <li><strong>Better lyrics sentiment.</strong> Our lyrics labels didn't help, maybe a better way to read the mood of a song would.</li>
+        <li><strong>More sources of hype.</strong> Other trends besides Google, like Twitter? :)</li>
+        <li><strong>An earlier cut-off.</strong> Stopping the search data two days before the final instead of one.</li>
+        <li><strong>Knowing how sure we are.</strong> Resampling the years would show how much our results could move, and better calibrated win probabilities would finally make the predictions useful for prediction markets.</li>
       </ul>
+      <p>And if we did it all again, we would decide how to measure success before seeing any results, keep the test finals closed until the very end, query Google Trends one song at a time from the start and write down our main question in the first week.</p>
     </section>
 
   </main>
